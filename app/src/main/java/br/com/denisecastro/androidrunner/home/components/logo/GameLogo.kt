@@ -1,4 +1,4 @@
-package br.com.denisecastro.androidrunner.home.components.logo
+package br.com.denisecastro.androidrunner.home.components.component.logo
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row

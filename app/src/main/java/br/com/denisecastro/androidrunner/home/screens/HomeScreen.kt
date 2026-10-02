@@ -5,15 +5,17 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import br.com.denisecastro.androidrunner.home.components.logo.GameLogo
+import br.com.denisecastro.androidrunner.home.components.component.logo.GameLogo
 import br.com.denisecastro.androidrunner.home.events.HomeUiEvent
 import br.com.denisecastro.androidrunner.home.state.HomeUiState
-import br.com.denisecastro.androidrunner.ui.designsystem.component.background.RunnerBackground
+import br.com.denisecastro.androidrunner.ui.designsystem.components.background.RunnerBackground
+import br.com.denisecastro.androidrunner.ui.designsystem.components.character.RunnerCharacter
 import br.com.denisecastro.androidrunner.ui.designsystem.theme.AndroidRunnerTheme
 
 @Composable
@@ -36,8 +38,8 @@ fun HomeScreen(
         ) {
             Spacer(modifier = Modifier.height(40.dp))
             GameLogo()
-            Spacer(modifier = Modifier.height(40.dp))
-            // Personagem
+            Spacer(modifier = Modifier.height(12.dp))
+            RunnerCharacter(modifier = Modifier.size(320.dp))
             // Botão Jogar
             // Recorde
             // Menu inferior

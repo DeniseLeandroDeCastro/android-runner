@@ -1,4 +1,4 @@
-package br.com.denisecastro.androidrunner.ui.designsystem.component.background
+package br.com.denisecastro.androidrunner.ui.designsystem.components.background
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
