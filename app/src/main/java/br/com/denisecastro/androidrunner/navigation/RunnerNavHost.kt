@@ -5,6 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import br.com.denisecastro.androidrunner.game.route.GameRoute
 import br.com.denisecastro.androidrunner.game.screens.GameScreen
 import br.com.denisecastro.androidrunner.game.state.GameUiState
 import br.com.denisecastro.androidrunner.home.route.HomeRoute
@@ -44,10 +45,7 @@ fun RunnerNavHost(
         composable(
             route = RunnerDestination.Game.route
         ) {
-            GameScreen(
-                uiState = GameUiState(),
-                onEvent = {}
-            )
+            GameRoute()
         }
     }
 }
