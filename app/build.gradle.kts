@@ -51,6 +51,8 @@ dependencies {
     implementation(libs.androidx.compose.material.icons.extended)
     // Lifecycle
     implementation(libs.androidx.lifecycle.runtime.ktx)
+    // Navigation
+    implementation(libs.androidx.navigation.compose)
     // Tests
     testImplementation(libs.junit)
     debugImplementation(libs.androidx.compose.ui.tooling)
