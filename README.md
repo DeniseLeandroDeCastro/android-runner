@@ -1,5 +1,8 @@
 <div>
 
+<img width="2048" height="768" alt="AndroidRunner_ Corrida no Deserto" src="https://github.com/user-attachments/assets/4070fce4-c60c-4f13-9cd9-4e42f8f50f9c" />
+
+
 #  AndroidRunner
 
 ###  Um Endless Runner desenvolvido com Android Nativo
