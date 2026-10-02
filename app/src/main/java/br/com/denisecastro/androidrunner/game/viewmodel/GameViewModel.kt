@@ -3,7 +3,10 @@ package br.com.denisecastro.androidrunner.game.viewmodel
 import androidx.lifecycle.ViewModel
 import br.com.denisecastro.androidrunner.game.engine.GameConstants
 import br.com.denisecastro.androidrunner.game.engine.GamePhysics
+import br.com.denisecastro.androidrunner.game.engine.ObstaclePhysics
+import br.com.denisecastro.androidrunner.game.engine.ObstacleSpawner
 import br.com.denisecastro.androidrunner.game.events.GameUiEvent
+import br.com.denisecastro.androidrunner.game.model.Obstacle
 import br.com.denisecastro.androidrunner.game.state.GameUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -11,26 +14,34 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 class GameViewModel : ViewModel() {
-
     private val _uiState = MutableStateFlow(
-        GameUiState()
+        GameUiState(
+            obstacles = listOf(
+                Obstacle(
+                    id = 1L,
+                    x = GameConstants.INITIAL_OBSTACLE_X,
+                    width = GameConstants.OBSTACLE_WIDTH,
+                    height = GameConstants.OBSTACLE_HEIGHT
+                )
+            )
+        )
     )
+
+    private var obstacleSpawnTimer = 0f
+    private var nextObstacleId = 2L
 
     val uiState: StateFlow<GameUiState> =
         _uiState.asStateFlow()
 
     fun onEvent(event: GameUiEvent) {
         when (event) {
-
             GameUiEvent.JumpClicked -> jump()
-
             GameUiEvent.PauseClicked -> togglePause()
         }
     }
 
     private fun jump() {
         _uiState.update { state ->
-
             if (state.isJumping || state.isPaused) {
                 return@update state
             }
@@ -51,9 +62,7 @@ class GameViewModel : ViewModel() {
     }
 
     fun updateGame(deltaTimeSeconds: Float) {
-
         val currentState = _uiState.value
-
         if (currentState.isPaused) {
             return
         }
@@ -64,11 +73,39 @@ class GameViewModel : ViewModel() {
             deltaTimeSeconds = deltaTimeSeconds
         )
 
+        val updatedObstacles = currentState.obstacles
+            .map { obstacle ->
+                ObstaclePhysics.update(
+                    obstacle = obstacle,
+                    deltaTimeSeconds = deltaTimeSeconds
+                )
+            }
+            .filter { obstacle ->
+                obstacle.x > GameConstants.OBSTACLE_REMOVE_X
+            }
+            .toMutableList()
+
+        obstacleSpawnTimer += deltaTimeSeconds
+
+        if (
+            obstacleSpawnTimer >=
+            GameConstants.OBSTACLE_SPAWN_INTERVAL
+        ) {
+            updatedObstacles.add(
+                ObstacleSpawner.create(
+                    id = nextObstacleId++
+                )
+            )
+
+            obstacleSpawnTimer = 0f
+        }
+
         _uiState.update { state ->
             state.copy(
                 playerY = physicsState.y,
                 playerVelocityY = physicsState.velocityY,
-                isJumping = physicsState.isJumping
+                isJumping = physicsState.isJumping,
+                obstacles = updatedObstacles
             )
         }
     }

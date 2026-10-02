@@ -15,6 +15,7 @@ import br.com.denisecastro.androidrunner.game.state.GameUiState
 import br.com.denisecastro.androidrunner.ui.designsystem.theme.AndroidRunnerTheme
 import androidx.compose.foundation.layout.offset
 import br.com.denisecastro.androidrunner.game.components.area.GamePlayArea
+import br.com.denisecastro.androidrunner.game.components.obstacles.GameObstacle
 
 @Composable
 fun GameScreen(
@@ -31,6 +32,24 @@ fun GameScreen(
                 onEvent(GameUiEvent.JumpClicked)
             }
         ) {
+
+            uiState.obstacles.forEach { obstacle ->
+
+                GameObstacle(
+                    modifier = Modifier
+                        .align(Alignment.BottomStart)
+                        .padding(
+                            bottom = 110.dp
+                        )
+                        .offset(
+                            x = obstacle.x.dp
+                        )
+                        .size(
+                            width = obstacle.width.dp,
+                            height = obstacle.height.dp
+                        )
+                )
+            }
 
             RunnerCharacter(
                 modifier = Modifier
