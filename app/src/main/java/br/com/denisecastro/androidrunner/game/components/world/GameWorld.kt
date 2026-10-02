@@ -1,4 +1,4 @@
-package br.com.denisecastro.androidrunner.game.components
+package br.com.denisecastro.androidrunner.game.components.world
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -13,8 +13,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.com.denisecastro.androidrunner.ui.designsystem.theme.AndroidRunnerTheme
-import br.com.denisecastro.androidrunner.ui.designsystem.theme.RunnerBackground
-import br.com.denisecastro.androidrunner.ui.designsystem.theme.RunnerBackgroundLight
 import br.com.denisecastro.androidrunner.ui.designsystem.theme.RunnerGround
 import br.com.denisecastro.androidrunner.ui.designsystem.theme.RunnerGroundTop
 import br.com.denisecastro.androidrunner.ui.designsystem.theme.RunnerSkyBottom

@@ -1,4 +1,4 @@
-package br.com.denisecastro.androidrunner.game.components
+package br.com.denisecastro.androidrunner.game.components.hud
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
