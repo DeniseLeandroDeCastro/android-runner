@@ -3,6 +3,7 @@ package br.com.denisecastro.androidrunner.home.screens
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -11,6 +12,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import br.com.denisecastro.androidrunner.home.components.button.PlayButton
+import br.com.denisecastro.androidrunner.home.components.cards.HighScoreCard
 import br.com.denisecastro.androidrunner.home.components.component.logo.GameLogo
 import br.com.denisecastro.androidrunner.home.events.HomeUiEvent
 import br.com.denisecastro.androidrunner.home.state.HomeUiState
@@ -40,8 +43,17 @@ fun HomeScreen(
             GameLogo()
             Spacer(modifier = Modifier.height(12.dp))
             RunnerCharacter(modifier = Modifier.size(320.dp))
-            // Botão Jogar
-            // Recorde
+            PlayButton(
+                onClick = {
+                    onEvent(HomeUiEvent.PlayClicked)
+                },
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            HighScoreCard(
+                highScore = uiState.highScore,
+                modifier = Modifier.fillMaxWidth()
+            )
             // Menu inferior
 
         }
