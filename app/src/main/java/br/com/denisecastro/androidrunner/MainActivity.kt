@@ -18,8 +18,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             AndroidRunnerTheme {
                 HomeScreen(
-                    onEvent = { },
-                    uiState = HomeUiState()
+                    uiState = HomeUiState(
+                        highScore = 2450
+                    ),
+                    onEvent = {}
                 )
             }
         }
