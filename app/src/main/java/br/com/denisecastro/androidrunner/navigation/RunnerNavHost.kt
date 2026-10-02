@@ -5,8 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import br.com.denisecastro.androidrunner.home.screens.HomeScreen
-import br.com.denisecastro.androidrunner.home.state.HomeUiState
+import br.com.denisecastro.androidrunner.home.route.HomeRoute
 
 @Composable
 fun RunnerNavHost(
@@ -22,13 +21,26 @@ fun RunnerNavHost(
         composable(
             route = RunnerDestination.Home.route
         ) {
-
-            HomeScreen(
-                uiState = HomeUiState(
-                    highScore = 2450
-                ),
-                onEvent = { event ->
-                    // Trataremos no próximo passo.
+            HomeRoute(
+                onNavigateToGame = {
+                    navController.navigate(
+                        RunnerDestination.Game.route
+                    )
+                },
+                onNavigateToRanking = {
+                    navController.navigate(
+                        RunnerDestination.Ranking.route
+                    )
+                },
+                onNavigateToHowToPlay = {
+                    navController.navigate(
+                        RunnerDestination.HowToPlay.route
+                    )
+                },
+                onNavigateToSettings = {
+                    navController.navigate(
+                        RunnerDestination.Settings.route
+                    )
                 }
             )
         }
