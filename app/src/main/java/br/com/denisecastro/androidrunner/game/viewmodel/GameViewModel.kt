@@ -2,6 +2,7 @@ package br.com.denisecastro.androidrunner.game.viewmodel
 
 import androidx.lifecycle.ViewModel
 import br.com.denisecastro.androidrunner.game.engine.GameConstants
+import br.com.denisecastro.androidrunner.game.engine.GamePhysics
 import br.com.denisecastro.androidrunner.game.events.GameUiEvent
 import br.com.denisecastro.androidrunner.game.state.GameUiState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -45,6 +46,29 @@ class GameViewModel : ViewModel() {
         _uiState.update { state ->
             state.copy(
                 isPaused = !state.isPaused
+            )
+        }
+    }
+
+    fun updateGame(deltaTimeSeconds: Float) {
+
+        val currentState = _uiState.value
+
+        if (currentState.isPaused) {
+            return
+        }
+
+        val physicsState = GamePhysics.updatePlayer(
+            y = currentState.playerY,
+            velocityY = currentState.playerVelocityY,
+            deltaTimeSeconds = deltaTimeSeconds
+        )
+
+        _uiState.update { state ->
+            state.copy(
+                playerY = physicsState.y,
+                playerVelocityY = physicsState.velocityY,
+                isJumping = physicsState.isJumping
             )
         }
     }

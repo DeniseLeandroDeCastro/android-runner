@@ -45,7 +45,9 @@ private fun RunnerCharacterPreview() {
                     .padding(24.dp)
             ) {
                 RunnerCharacter(
-                    modifier = Modifier.size(280.dp)
+                    modifier = Modifier
+                        .align(Alignment.BottomStart)
+                        .size(190.dp)
                 )
             }
         }

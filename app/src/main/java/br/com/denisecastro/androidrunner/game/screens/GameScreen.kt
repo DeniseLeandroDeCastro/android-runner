@@ -13,6 +13,8 @@ import br.com.denisecastro.androidrunner.game.components.character.RunnerCharact
 import br.com.denisecastro.androidrunner.game.events.GameUiEvent
 import br.com.denisecastro.androidrunner.game.state.GameUiState
 import br.com.denisecastro.androidrunner.ui.designsystem.theme.AndroidRunnerTheme
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.offset
 
 @Composable
 fun GameScreen(
@@ -22,8 +24,10 @@ fun GameScreen(
 ){
     GameWorld(
         modifier = modifier
+            .clickable {
+                onEvent(GameUiEvent.JumpClicked)
+            }
     ) {
-
         RunnerCharacter(
             modifier = Modifier
                 .align(Alignment.BottomStart)
@@ -31,6 +35,7 @@ fun GameScreen(
                     start = 24.dp,
                     bottom = 82.dp
                 )
+                .offset(y = uiState.playerY.dp)
                 .size(190.dp)
         )
 
