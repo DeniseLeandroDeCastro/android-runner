@@ -45,7 +45,11 @@ fun RunnerNavHost(
         composable(
             route = RunnerDestination.Game.route
         ) {
-            GameRoute()
+            GameRoute(
+                onNavigateHome = {
+                    navController.popBackStack()
+                }
+            )
         }
     }
 }

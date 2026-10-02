@@ -16,6 +16,8 @@ import br.com.denisecastro.androidrunner.ui.designsystem.theme.AndroidRunnerThem
 import androidx.compose.foundation.layout.offset
 import br.com.denisecastro.androidrunner.game.components.area.GamePlayArea
 import br.com.denisecastro.androidrunner.game.components.obstacles.GameObstacle
+import androidx.compose.foundation.layout.fillMaxSize
+import br.com.denisecastro.androidrunner.game.components.gameover.GameOverOverlay
 
 @Composable
 fun GameScreen(
@@ -34,7 +36,6 @@ fun GameScreen(
         ) {
 
             uiState.obstacles.forEach { obstacle ->
-
                 GameObstacle(
                     modifier = Modifier
                         .align(Alignment.BottomStart)
@@ -78,6 +79,19 @@ fun GameScreen(
                     vertical = 24.dp
                 )
         )
+        if (uiState.isGameOver) {
+            GameOverOverlay(
+                score = uiState.score,
+                highScore = uiState.highScore,
+                onRestartClick = {
+                    onEvent(GameUiEvent.RestartClicked)
+                },
+                onHomeClick = {
+                    onEvent(GameUiEvent.HomeClicked)
+                },
+                modifier = Modifier.fillMaxSize()
+            )
+        }
     }
 }
 
@@ -92,6 +106,25 @@ private fun GameScreenPreview() {
         GameScreen(
             uiState = GameUiState(
                 score = 2450
+            ),
+            onEvent = {}
+        )
+    }
+}
+
+@Preview(
+    name = "Game Screen - Game Over",
+    widthDp = 393,
+    heightDp = 852
+)
+@Composable
+private fun GameScreenGameOverPreview() {
+    AndroidRunnerTheme {
+        GameScreen(
+            uiState = GameUiState(
+                score = 1250,
+                highScore = 2450,
+                isGameOver = true
             ),
             onEvent = {}
         )

@@ -28,6 +28,22 @@ class GameViewModel : ViewModel() {
         )
     )
 
+    private fun restartGame() {
+        val currentHighScore = _uiState.value.highScore
+
+        obstacleSpawnTimer = 0f
+        nextObstacleId = 2L
+
+        _uiState.value = GameUiState(
+            highScore = currentHighScore,
+            obstacles = listOf(
+                ObstacleSpawner.create(
+                    id = 1L
+                )
+            )
+        )
+    }
+
     private var obstacleSpawnTimer = 0f
     private var nextObstacleId = 2L
 
@@ -38,12 +54,18 @@ class GameViewModel : ViewModel() {
         when (event) {
             GameUiEvent.JumpClicked -> jump()
             GameUiEvent.PauseClicked -> togglePause()
+            GameUiEvent.RestartClicked -> restartGame()
+            GameUiEvent.HomeClicked -> Unit
         }
     }
 
     private fun jump() {
         _uiState.update { state ->
-            if (state.isJumping || state.isPaused) {
+            if (
+                state.isJumping ||
+                state.isPaused ||
+                state.isGameOver
+            ) {
                 return@update state
             }
 
