@@ -27,3 +27,9 @@ val RunnerTextSecondary = Color(0xFFC9D2EA)
 
 // Game Over
 val RunnerRed = Color(0xFFFF4D67)
+
+// Game world
+val RunnerSkyTop = Color(0xFF205ACB)
+val RunnerSkyBottom = Color(0xFF071A3D)
+val RunnerGround = Color(0xFF173A54)
+val RunnerGroundTop = Color(0xFF3DDC84)

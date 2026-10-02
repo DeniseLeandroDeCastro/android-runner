@@ -1,4 +1,4 @@
-package br.com.denisecastro.androidrunner.ui.designsystem.components.character
+package br.com.denisecastro.androidrunner.game.components.character
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -14,7 +14,6 @@ import androidx.compose.ui.unit.dp
 import br.com.denisecastro.androidrunner.R
 import br.com.denisecastro.androidrunner.ui.designsystem.components.background.RunnerBackground
 import br.com.denisecastro.androidrunner.ui.designsystem.theme.AndroidRunnerTheme
-import br.com.denisecastro.androidrunner.ui.designsystem.theme.RunnerBackground
 
 @Composable
 fun RunnerCharacter(
