@@ -12,4 +12,32 @@ object CollisionDetector {
                 first.top < second.bottom &&
                 first.bottom > second.top
     }
+
+    fun playerHitBox(
+        playerY: Float
+    ): HitBox {
+
+        val bottom = GameConstants.GROUND_Y + playerY
+
+        return HitBox(
+            left = GameConstants.PLAYER_X,
+            top = bottom - GameConstants.PLAYER_HITBOX_HEIGHT,
+            right = GameConstants.PLAYER_X +
+                    GameConstants.PLAYER_HITBOX_WIDTH,
+            bottom = bottom
+        )
+    }
+
+    fun obstacleHitBox(
+        x: Float,
+        width: Float,
+        height: Float
+    ): HitBox {
+        return HitBox(
+            left = x,
+            top = GameConstants.GROUND_Y - height,
+            right = x + width,
+            bottom = GameConstants.GROUND_Y
+        )
+    }
 }

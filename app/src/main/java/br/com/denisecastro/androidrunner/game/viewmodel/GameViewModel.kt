@@ -1,6 +1,7 @@
 package br.com.denisecastro.androidrunner.game.viewmodel
 
 import androidx.lifecycle.ViewModel
+import br.com.denisecastro.androidrunner.game.engine.CollisionDetector
 import br.com.denisecastro.androidrunner.game.engine.GameConstants
 import br.com.denisecastro.androidrunner.game.engine.GamePhysics
 import br.com.denisecastro.androidrunner.game.engine.ObstaclePhysics
@@ -63,7 +64,10 @@ class GameViewModel : ViewModel() {
 
     fun updateGame(deltaTimeSeconds: Float) {
         val currentState = _uiState.value
-        if (currentState.isPaused) {
+        if (
+            currentState.isPaused ||
+            currentState.isGameOver
+        ) {
             return
         }
 
@@ -100,12 +104,32 @@ class GameViewModel : ViewModel() {
             obstacleSpawnTimer = 0f
         }
 
+        val playerHitBox = CollisionDetector.playerHitBox(
+            playerY = physicsState.y
+        )
+
+        val hasCollision = updatedObstacles.any { obstacle ->
+
+            val obstacleHitBox =
+                CollisionDetector.obstacleHitBox(
+                    x = obstacle.x,
+                    width = obstacle.width,
+                    height = obstacle.height
+                )
+
+            CollisionDetector.collides(
+                first = playerHitBox,
+                second = obstacleHitBox
+            )
+        }
+
         _uiState.update { state ->
             state.copy(
                 playerY = physicsState.y,
                 playerVelocityY = physicsState.velocityY,
                 isJumping = physicsState.isJumping,
-                obstacles = updatedObstacles
+                obstacles = updatedObstacles,
+                isGameOver = hasCollision
             )
         }
     }
