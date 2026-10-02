@@ -20,6 +20,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import br.com.denisecastro.androidrunner.core.formatter.ScoreFormatter
 import br.com.denisecastro.androidrunner.ui.designsystem.theme.AndroidRunnerTheme
 import br.com.denisecastro.androidrunner.ui.designsystem.theme.RunnerGold
 import br.com.denisecastro.androidrunner.ui.designsystem.theme.RunnerSurface
@@ -59,7 +60,7 @@ fun HighScoreCard(
             )
 
             Text(
-                text = highScore.toString(),
+                text = ScoreFormatter.format(highScore),
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.ExtraBold,
                 color = RunnerGold
