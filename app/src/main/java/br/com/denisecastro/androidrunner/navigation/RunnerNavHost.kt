@@ -5,6 +5,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import br.com.denisecastro.androidrunner.game.screens.GameScreen
+import br.com.denisecastro.androidrunner.game.state.GameUiState
 import br.com.denisecastro.androidrunner.home.route.HomeRoute
 
 @Composable
@@ -28,20 +30,23 @@ fun RunnerNavHost(
                     )
                 },
                 onNavigateToRanking = {
-                    navController.navigate(
-                        RunnerDestination.Ranking.route
-                    )
+                    // Ainda não navegar
                 },
                 onNavigateToHowToPlay = {
-                    navController.navigate(
-                        RunnerDestination.HowToPlay.route
-                    )
+                    // Ainda não navegar
                 },
                 onNavigateToSettings = {
-                    navController.navigate(
-                        RunnerDestination.Settings.route
-                    )
+                    // Ainda não navegar
                 }
+            )
+        }
+
+        composable(
+            route = RunnerDestination.Game.route
+        ) {
+            GameScreen(
+                uiState = GameUiState(),
+                onEvent = {}
             )
         }
     }
