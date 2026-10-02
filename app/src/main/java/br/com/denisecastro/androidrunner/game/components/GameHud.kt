@@ -27,10 +27,12 @@ import br.com.denisecastro.androidrunner.ui.designsystem.theme.AndroidRunnerThem
 import br.com.denisecastro.androidrunner.ui.designsystem.theme.RunnerGold
 import br.com.denisecastro.androidrunner.ui.designsystem.theme.RunnerSurface
 import br.com.denisecastro.androidrunner.ui.designsystem.theme.RunnerWhite
+import androidx.compose.material.icons.filled.PlayArrow
 
 @Composable
 fun GameHud(
     score: Int,
+    isPaused: Boolean,
     onPauseClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -56,8 +58,16 @@ fun GameHud(
             contentAlignment = Alignment.Center
         ) {
             Icon(
-                imageVector = Icons.Default.Pause,
-                contentDescription = "Pausar jogo",
+                imageVector = if (isPaused) {
+                    Icons.Default.PlayArrow
+                } else {
+                    Icons.Default.Pause
+                },
+                contentDescription = if (isPaused) {
+                    "Continuar jogo"
+                } else {
+                    "Pausar jogo"
+                },
                 tint = RunnerWhite,
                 modifier = Modifier.size(26.dp)
             )
@@ -76,6 +86,7 @@ private fun GameHudPreview() {
         RunnerBackground {
             GameHud(
                 score = 2450,
+                isPaused = false,
                 onPauseClick = {},
                 modifier = Modifier
                     .align(Alignment.Center)

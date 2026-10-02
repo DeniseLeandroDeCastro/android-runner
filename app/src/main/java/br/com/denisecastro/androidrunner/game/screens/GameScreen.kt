@@ -38,9 +38,9 @@ fun GameScreen(
                 .offset(y = uiState.playerY.dp)
                 .size(190.dp)
         )
-
         GameHud(
             score = uiState.score,
+            isPaused = uiState.isPaused,
             onPauseClick = {
                 onEvent(GameUiEvent.PauseClicked)
             },
