@@ -2,7 +2,7 @@ package br.com.denisecastro.androidrunner.game.viewmodel
 
 import androidx.lifecycle.ViewModel
 import br.com.denisecastro.androidrunner.game.engine.CollisionDetector
-import br.com.denisecastro.androidrunner.game.engine.GameConstants
+import br.com.denisecastro.androidrunner.game.engine.constants.GameConstants
 import br.com.denisecastro.androidrunner.game.engine.GamePhysics
 import br.com.denisecastro.androidrunner.game.engine.ObstaclePhysics
 import br.com.denisecastro.androidrunner.game.engine.ObstacleSpawner
@@ -15,6 +15,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 class GameViewModel : ViewModel() {
+
+    private var obstacleSpawnTimer = 0f
+    private var nextObstacleId = 2L
+    private var elapsedGameTime = 0f
     private val _uiState = MutableStateFlow(
         GameUiState(
             obstacles = listOf(
@@ -30,9 +34,9 @@ class GameViewModel : ViewModel() {
 
     private fun restartGame() {
         val currentHighScore = _uiState.value.highScore
-
         obstacleSpawnTimer = 0f
         nextObstacleId = 2L
+        elapsedGameTime = 0f
 
         _uiState.value = GameUiState(
             highScore = currentHighScore,
@@ -43,9 +47,6 @@ class GameViewModel : ViewModel() {
             )
         )
     }
-
-    private var obstacleSpawnTimer = 0f
-    private var nextObstacleId = 2L
 
     val uiState: StateFlow<GameUiState> =
         _uiState.asStateFlow()
@@ -92,6 +93,11 @@ class GameViewModel : ViewModel() {
         ) {
             return
         }
+        elapsedGameTime += deltaTimeSeconds
+
+        val updatedScore =
+            (elapsedGameTime * GameConstants.SCORE_PER_SECOND)
+                .toInt()
 
         val physicsState = GamePhysics.updatePlayer(
             y = currentState.playerY,
@@ -147,6 +153,7 @@ class GameViewModel : ViewModel() {
 
         _uiState.update { state ->
             state.copy(
+                score = updatedScore,
                 playerY = physicsState.y,
                 playerVelocityY = physicsState.velocityY,
                 isJumping = physicsState.isJumping,

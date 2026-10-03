@@ -1,5 +1,6 @@
 package br.com.denisecastro.androidrunner.game.engine
 
+import br.com.denisecastro.androidrunner.game.engine.constants.GameConstants
 import br.com.denisecastro.androidrunner.game.model.HitBox
 
 object CollisionDetector {

@@ -1,5 +1,7 @@
 package br.com.denisecastro.androidrunner.game.engine
 
+import br.com.denisecastro.androidrunner.game.engine.constants.GameConstants
+
 data class PlayerPhysicsState(
     val y: Float,
     val velocityY: Float,

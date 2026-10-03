@@ -1,4 +1,4 @@
-package br.com.denisecastro.androidrunner.game.engine
+package br.com.denisecastro.androidrunner.game.engine.constants
 
 object GameConstants {
     const val GRAVITY = 2200f
@@ -15,4 +15,6 @@ object GameConstants {
     const val PLAYER_X = 70f
     const val PLAYER_HITBOX_WIDTH = 55f
     const val PLAYER_HITBOX_HEIGHT = 75f
+
+    const val SCORE_PER_SECOND = 100
 }
