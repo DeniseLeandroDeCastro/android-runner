@@ -11,6 +11,7 @@ import br.com.denisecastro.androidrunner.game.screens.GameScreen
 import br.com.denisecastro.androidrunner.game.state.GameUiState
 import br.com.denisecastro.androidrunner.home.route.HomeRoute
 import br.com.denisecastro.androidrunner.howtoplay.screens.HowToPlayScreen
+import br.com.denisecastro.androidrunner.settings.route.SettingsRoute
 
 @Composable
 fun RunnerNavHost(
@@ -42,7 +43,9 @@ fun RunnerNavHost(
                     )
                 },
                 onNavigateToSettings = {
-                    // Ainda não navegar
+                    navController.navigate(
+                        RunnerDestination.Settings.route
+                    )
                 }
             )
         }
@@ -71,6 +74,16 @@ fun RunnerNavHost(
             route = RunnerDestination.Ranking.route
         ) {
             RankingRoute(
+                onNavigateBack = {
+                    navController.popBackStack()
+                }
+            )
+        }
+
+        composable(
+            route = RunnerDestination.Settings.route
+        ) {
+            SettingsRoute(
                 onNavigateBack = {
                     navController.popBackStack()
                 }
