@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import androidx.lifecycle.viewModelScope
+import br.com.denisecastro.androidrunner.data.ranking.repository.RankingRepository
 import br.com.denisecastro.androidrunner.domain.highscore.repository.HighScoreRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -21,7 +22,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class GameViewModel @Inject constructor(
-    private val highScoreRepository: HighScoreRepository
+    private val highScoreRepository: HighScoreRepository,
+    private val rankingRepository: RankingRepository
 ) : ViewModel() {
     private var obstacleSpawnTimer = 0f
     private var nextObstacleId = 2L
@@ -74,6 +76,12 @@ class GameViewModel @Inject constructor(
     private fun saveHighScore(score: Int) {
         viewModelScope.launch {
             highScoreRepository.saveHighScore(score)
+        }
+    }
+
+    private fun saveScoreToRanking(score: Int) {
+        viewModelScope.launch {
+            rankingRepository.saveScore(score)
         }
     }
 
@@ -184,6 +192,10 @@ class GameViewModel @Inject constructor(
             } else {
                 currentState.highScore
             }
+
+        if (hasCollision) {
+            saveScoreToRanking(updatedScore)
+        }
 
         if (
             hasCollision &&
