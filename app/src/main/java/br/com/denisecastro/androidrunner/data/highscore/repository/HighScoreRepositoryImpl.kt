@@ -3,8 +3,9 @@ package br.com.denisecastro.androidrunner.data.highscore.repository
 import br.com.denisecastro.androidrunner.data.highscore.local.HighScoreDataStore
 import br.com.denisecastro.androidrunner.domain.highscore.repository.HighScoreRepository
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class HighScoreRepositoryImpl(
+class HighScoreRepositoryImpl @Inject constructor(
     private val dataStore: HighScoreDataStore
 ) : HighScoreRepository {
 

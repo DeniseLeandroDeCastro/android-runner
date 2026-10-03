@@ -13,9 +13,16 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import androidx.lifecycle.viewModelScope
+import br.com.denisecastro.androidrunner.domain.highscore.repository.HighScoreRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class GameViewModel : ViewModel() {
-
+@HiltViewModel
+class GameViewModel @Inject constructor(
+    private val highScoreRepository: HighScoreRepository
+) : ViewModel() {
     private var obstacleSpawnTimer = 0f
     private var nextObstacleId = 2L
     private var elapsedGameTime = 0f
@@ -32,6 +39,22 @@ class GameViewModel : ViewModel() {
         )
     )
 
+    init {
+        observeHighScore()
+    }
+
+    private fun observeHighScore() {
+        viewModelScope.launch {
+            highScoreRepository.highScore.collect { highScore ->
+                _uiState.update { state ->
+                    state.copy(
+                        highScore = highScore
+                    )
+                }
+            }
+        }
+    }
+
     private fun restartGame() {
         val currentHighScore = _uiState.value.highScore
         obstacleSpawnTimer = 0f
@@ -46,6 +69,12 @@ class GameViewModel : ViewModel() {
                 )
             )
         )
+    }
+
+    private fun saveHighScore(score: Int) {
+        viewModelScope.launch {
+            highScoreRepository.saveHighScore(score)
+        }
     }
 
     val uiState: StateFlow<GameUiState> =
@@ -155,6 +184,13 @@ class GameViewModel : ViewModel() {
             } else {
                 currentState.highScore
             }
+
+        if (
+            hasCollision &&
+            updatedScore > currentState.highScore
+        ) {
+            saveHighScore(updatedScore)
+        }
 
         _uiState.update { state ->
             state.copy(
