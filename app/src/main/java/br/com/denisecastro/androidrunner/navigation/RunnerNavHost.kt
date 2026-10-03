@@ -5,6 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import br.com.denisecastro.androidrunner.data.ranking.route.RankingRoute
 import br.com.denisecastro.androidrunner.game.route.GameRoute
 import br.com.denisecastro.androidrunner.game.screens.GameScreen
 import br.com.denisecastro.androidrunner.game.state.GameUiState
@@ -31,7 +32,9 @@ fun RunnerNavHost(
                     )
                 },
                 onNavigateToRanking = {
-                    // Ainda não navegar
+                    navController.navigate(
+                        RunnerDestination.Ranking.route
+                    )
                 },
                 onNavigateToHowToPlay = {
                     navController.navigate(
@@ -59,6 +62,16 @@ fun RunnerNavHost(
         ) {
             HowToPlayScreen(
                 onBackClick = {
+                    navController.popBackStack()
+                }
+            )
+        }
+
+        composable(
+            route = RunnerDestination.Ranking.route
+        ) {
+            RankingRoute(
+                onNavigateBack = {
                     navController.popBackStack()
                 }
             )
