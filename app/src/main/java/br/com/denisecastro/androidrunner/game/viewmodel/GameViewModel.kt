@@ -116,9 +116,7 @@ class GameViewModel : ViewModel() {
                 obstacle.x > GameConstants.OBSTACLE_REMOVE_X
             }
             .toMutableList()
-
         obstacleSpawnTimer += deltaTimeSeconds
-
         if (
             obstacleSpawnTimer >=
             GameConstants.OBSTACLE_SPAWN_INTERVAL
@@ -128,7 +126,6 @@ class GameViewModel : ViewModel() {
                     id = nextObstacleId++
                 )
             )
-
             obstacleSpawnTimer = 0f
         }
 
@@ -137,23 +134,32 @@ class GameViewModel : ViewModel() {
         )
 
         val hasCollision = updatedObstacles.any { obstacle ->
-
             val obstacleHitBox =
                 CollisionDetector.obstacleHitBox(
                     x = obstacle.x,
                     width = obstacle.width,
                     height = obstacle.height
                 )
-
             CollisionDetector.collides(
                 first = playerHitBox,
                 second = obstacleHitBox
             )
         }
 
+        val updatedHighScore =
+            if (hasCollision) {
+                maxOf(
+                    currentState.highScore,
+                    updatedScore
+                )
+            } else {
+                currentState.highScore
+            }
+
         _uiState.update { state ->
             state.copy(
                 score = updatedScore,
+                highScore = updatedHighScore,
                 playerY = physicsState.y,
                 playerVelocityY = physicsState.velocityY,
                 isJumping = physicsState.isJumping,
