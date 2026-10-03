@@ -9,6 +9,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 import br.com.denisecastro.androidrunner.data.ranking.repository.RankingRepositoryImpl
+import br.com.denisecastro.androidrunner.data.settings.repository.SettingsRepositoryImpl
+import br.com.denisecastro.androidrunner.domain.settings.repository.SettingsRepository
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -25,4 +27,10 @@ abstract class RepositoryModule {
     abstract fun bindRankingRepository(
         implementation: RankingRepositoryImpl
     ): RankingRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindSettingsRepository(
+        implementation: SettingsRepositoryImpl
+    ): SettingsRepository
 }
