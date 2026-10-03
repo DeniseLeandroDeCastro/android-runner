@@ -2,8 +2,8 @@ package br.com.denisecastro.androidrunner.home.route
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import br.com.denisecastro.androidrunner.home.events.HomeUiEvent
 import br.com.denisecastro.androidrunner.home.screens.HomeScreen
 import br.com.denisecastro.androidrunner.home.viewmodel.HomeViewModel
@@ -14,9 +14,10 @@ fun HomeRoute(
     onNavigateToRanking: () -> Unit,
     onNavigateToHowToPlay: () -> Unit,
     onNavigateToSettings: () -> Unit,
-    viewModel: HomeViewModel = viewModel()
+    viewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
     HomeScreen(
         uiState = uiState,
         onEvent = { event ->
