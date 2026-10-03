@@ -55,6 +55,8 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
+    // DataStore
+    implementation(libs.androidx.datastore.preferences)
     // Tests
     testImplementation(libs.junit)
     debugImplementation(libs.androidx.compose.ui.tooling)
