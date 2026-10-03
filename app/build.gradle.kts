@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.hilt.android)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -57,6 +59,13 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     // DataStore
     implementation(libs.androidx.datastore.preferences)
+    // Hilt
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+    // Room
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
     // Tests
     testImplementation(libs.junit)
     debugImplementation(libs.androidx.compose.ui.tooling)

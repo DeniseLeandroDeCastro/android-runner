@@ -10,7 +10,9 @@ import br.com.denisecastro.androidrunner.home.screens.HomeScreen
 import br.com.denisecastro.androidrunner.home.state.HomeUiState
 import br.com.denisecastro.androidrunner.navigation.RunnerNavHost
 import br.com.denisecastro.androidrunner.ui.designsystem.theme.AndroidRunnerTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
