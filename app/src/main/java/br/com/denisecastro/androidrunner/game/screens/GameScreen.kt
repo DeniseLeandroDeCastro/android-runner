@@ -18,6 +18,8 @@ import br.com.denisecastro.androidrunner.game.components.area.GamePlayArea
 import br.com.denisecastro.androidrunner.game.components.obstacles.GameObstacle
 import androidx.compose.foundation.layout.fillMaxSize
 import br.com.denisecastro.androidrunner.game.components.gameover.GameOverOverlay
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 
 @Composable
 fun GameScreen(
@@ -25,16 +27,28 @@ fun GameScreen(
     onEvent: (GameUiEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val hapticFeedback = LocalHapticFeedback.current
+
     GameWorld(
         modifier = modifier
     ) {
 
         GamePlayArea(
             onJump = {
+                if (
+                    uiState.vibrationEnabled &&
+                    !uiState.isJumping &&
+                    !uiState.isPaused &&
+                    !uiState.isGameOver
+                ) {
+                    hapticFeedback.performHapticFeedback(
+                        HapticFeedbackType.LongPress
+                    )
+                }
+
                 onEvent(GameUiEvent.JumpClicked)
             }
         ) {
-
             uiState.obstacles.forEach { obstacle ->
                 GameObstacle(
                     modifier = Modifier

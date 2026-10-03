@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.update
 import androidx.lifecycle.viewModelScope
 import br.com.denisecastro.androidrunner.data.ranking.repository.RankingRepository
 import br.com.denisecastro.androidrunner.domain.highscore.repository.HighScoreRepository
+import br.com.denisecastro.androidrunner.domain.settings.repository.SettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -23,7 +24,8 @@ import javax.inject.Inject
 @HiltViewModel
 class GameViewModel @Inject constructor(
     private val highScoreRepository: HighScoreRepository,
-    private val rankingRepository: RankingRepository
+    private val rankingRepository: RankingRepository,
+    private val settingsRepository: SettingsRepository
 ) : ViewModel() {
     private var obstacleSpawnTimer = 0f
     private var nextObstacleId = 2L
@@ -43,6 +45,7 @@ class GameViewModel @Inject constructor(
 
     init {
         observeHighScore()
+        observeSettings()
     }
 
     private fun observeHighScore() {
@@ -58,13 +61,15 @@ class GameViewModel @Inject constructor(
     }
 
     private fun restartGame() {
-        val currentHighScore = _uiState.value.highScore
+        val currentState = _uiState.value
+
         obstacleSpawnTimer = 0f
         nextObstacleId = 2L
         elapsedGameTime = 0f
 
         _uiState.value = GameUiState(
-            highScore = currentHighScore,
+            highScore = currentState.highScore,
+            vibrationEnabled = currentState.vibrationEnabled,
             obstacles = listOf(
                 ObstacleSpawner.create(
                     id = 1L
@@ -119,6 +124,18 @@ class GameViewModel @Inject constructor(
             state.copy(
                 isPaused = !state.isPaused
             )
+        }
+    }
+
+    private fun observeSettings() {
+        viewModelScope.launch {
+            settingsRepository.settings.collect { settings ->
+                _uiState.update { state ->
+                    state.copy(
+                        vibrationEnabled = settings.vibrationEnabled
+                    )
+                }
+            }
         }
     }
 

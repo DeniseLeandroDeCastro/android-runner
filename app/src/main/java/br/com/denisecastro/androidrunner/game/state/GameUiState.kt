@@ -10,5 +10,6 @@ data class GameUiState(
     val playerVelocityY: Float = 0f,
     val isJumping: Boolean = false,
     val obstacles: List<Obstacle> = emptyList(),
-    val isGameOver: Boolean = false
+    val isGameOver: Boolean = false,
+    val vibrationEnabled: Boolean = true
 )
