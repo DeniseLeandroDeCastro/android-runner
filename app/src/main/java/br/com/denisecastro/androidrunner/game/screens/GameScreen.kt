@@ -26,18 +26,24 @@ import androidx.compose.runtime.LaunchedEffect
 fun GameScreen(
     uiState: GameUiState,
     onEvent: (GameUiEvent) -> Unit,
+    onJumpSound: () -> Unit,
+    onGameOverSound: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val hapticFeedback = LocalHapticFeedback.current
 
     LaunchedEffect(uiState.isGameOver) {
-        if (
-            uiState.isGameOver &&
-            uiState.vibrationEnabled
-        ) {
-            hapticFeedback.performHapticFeedback(
-                HapticFeedbackType.LongPress
-            )
+        if (uiState.isGameOver) {
+
+            if (uiState.vibrationEnabled) {
+                hapticFeedback.performHapticFeedback(
+                    HapticFeedbackType.LongPress
+                )
+            }
+
+            if (uiState.soundEnabled) {
+                onGameOverSound()
+            }
         }
     }
 
@@ -47,15 +53,22 @@ fun GameScreen(
 
         GamePlayArea(
             onJump = {
-                if (
-                    uiState.vibrationEnabled &&
+                val canJump =
                     !uiState.isJumping &&
-                    !uiState.isPaused &&
-                    !uiState.isGameOver
-                ) {
-                    hapticFeedback.performHapticFeedback(
-                        HapticFeedbackType.LongPress
-                    )
+                            !uiState.isPaused &&
+                            !uiState.isGameOver
+
+                if (canJump) {
+
+                    if (uiState.vibrationEnabled) {
+                        hapticFeedback.performHapticFeedback(
+                            HapticFeedbackType.LongPress
+                        )
+                    }
+
+                    if (uiState.soundEnabled) {
+                        onJumpSound()
+                    }
                 }
 
                 onEvent(GameUiEvent.JumpClicked)
@@ -133,7 +146,9 @@ private fun GameScreenPreview() {
             uiState = GameUiState(
                 score = 2450
             ),
-            onEvent = {}
+            onEvent = {},
+            onJumpSound = {},
+            onGameOverSound = {}
         )
     }
 }
@@ -152,7 +167,9 @@ private fun GameScreenGameOverPreview() {
                 highScore = 2450,
                 isGameOver = true
             ),
-            onEvent = {}
+            onEvent = {},
+            onJumpSound = {},
+            onGameOverSound = {}
         )
     }
 }

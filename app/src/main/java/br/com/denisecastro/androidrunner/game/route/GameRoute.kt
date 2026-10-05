@@ -9,6 +9,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.denisecastro.androidrunner.game.events.GameUiEvent
 import br.com.denisecastro.androidrunner.game.screens.GameScreen
 import br.com.denisecastro.androidrunner.game.viewmodel.GameViewModel
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
+import br.com.denisecastro.androidrunner.core.audio.GameSoundManager
 
 @Composable
 fun GameRoute(
@@ -16,6 +20,20 @@ fun GameRoute(
     viewModel: GameViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    val context = LocalContext.current
+
+    val gameSoundManager = remember {
+        GameSoundManager(
+            context = context.applicationContext
+        )
+    }
+
+    DisposableEffect(Unit) {
+        onDispose {
+            gameSoundManager.release()
+        }
+    }
 
     LaunchedEffect(Unit) {
         var lastFrameTimeNanos = 0L
@@ -33,11 +51,18 @@ fun GameRoute(
 
     GameScreen(
         uiState = uiState,
+        onJumpSound = {
+            gameSoundManager.playJump()
+        },
+        onGameOverSound = {
+            gameSoundManager.playGameOver()
+        },
         onEvent = { event ->
             when (event) {
                 GameUiEvent.HomeClicked -> {
                     onNavigateHome()
                 }
+
                 else -> {
                     viewModel.onEvent(event)
                 }

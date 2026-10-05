@@ -70,6 +70,7 @@ class GameViewModel @Inject constructor(
         _uiState.value = GameUiState(
             highScore = currentState.highScore,
             vibrationEnabled = currentState.vibrationEnabled,
+            soundEnabled = currentState.soundEnabled,
             obstacles = listOf(
                 ObstacleSpawner.create(
                     id = 1L
@@ -132,7 +133,8 @@ class GameViewModel @Inject constructor(
             settingsRepository.settings.collect { settings ->
                 _uiState.update { state ->
                     state.copy(
-                        vibrationEnabled = settings.vibrationEnabled
+                        vibrationEnabled = settings.vibrationEnabled,
+                        soundEnabled = settings.soundEnabled
                     )
                 }
             }

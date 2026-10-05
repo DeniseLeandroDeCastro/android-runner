@@ -11,5 +11,6 @@ data class GameUiState(
     val isJumping: Boolean = false,
     val obstacles: List<Obstacle> = emptyList(),
     val isGameOver: Boolean = false,
-    val vibrationEnabled: Boolean = true
+    val vibrationEnabled: Boolean = true,
+    val soundEnabled: Boolean = true
 )
