@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import br.com.denisecastro.androidrunner.game.components.gameover.GameOverOverlay
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.runtime.LaunchedEffect
 
 @Composable
 fun GameScreen(
@@ -28,6 +29,17 @@ fun GameScreen(
     modifier: Modifier = Modifier
 ) {
     val hapticFeedback = LocalHapticFeedback.current
+
+    LaunchedEffect(uiState.isGameOver) {
+        if (
+            uiState.isGameOver &&
+            uiState.vibrationEnabled
+        ) {
+            hapticFeedback.performHapticFeedback(
+                HapticFeedbackType.LongPress
+            )
+        }
+    }
 
     GameWorld(
         modifier = modifier
