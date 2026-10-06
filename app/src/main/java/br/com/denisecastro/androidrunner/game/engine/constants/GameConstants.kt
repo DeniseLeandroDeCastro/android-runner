@@ -12,6 +12,10 @@ object GameConstants {
     const val SPEED_INCREASE_PER_1000_POINTS = 20f
     const val OBSTACLE_WIDTH = 55f
     const val OBSTACLE_HEIGHT = 70f
+    const val SMALL_OBSTACLE_WIDTH = 45f
+    const val SMALL_OBSTACLE_HEIGHT = 50f
+    const val LARGE_OBSTACLE_WIDTH = 65f
+    const val LARGE_OBSTACLE_HEIGHT = 85f
     const val OBSTACLE_SPAWN_INTERVAL = 2.5f
     const val OBSTACLE_REMOVE_X = -100f
     const val PLAYER_X = 70f
