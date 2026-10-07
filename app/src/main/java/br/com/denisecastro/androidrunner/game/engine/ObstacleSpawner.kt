@@ -2,6 +2,7 @@ package br.com.denisecastro.androidrunner.game.engine
 
 import br.com.denisecastro.androidrunner.game.engine.constants.GameConstants
 import br.com.denisecastro.androidrunner.game.model.Obstacle
+import br.com.denisecastro.androidrunner.game.model.ObstacleType
 import kotlin.random.Random
 
 object ObstacleSpawner {
@@ -10,6 +11,8 @@ object ObstacleSpawner {
         id: Long,
         startX: Float = GameConstants.INITIAL_OBSTACLE_X
     ): Obstacle {
+
+        val type = ObstacleType.entries.random()
 
         val (width, height) = when (Random.nextInt(3)) {
 
@@ -33,7 +36,8 @@ object ObstacleSpawner {
             id = id,
             x = startX,
             width = width,
-            height = height
+            height = height,
+            type = type
         )
     }
 }

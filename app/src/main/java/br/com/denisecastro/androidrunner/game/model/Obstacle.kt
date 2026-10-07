@@ -4,5 +4,6 @@ data class Obstacle(
     val id: Long,
     val x: Float,
     val width: Float,
-    val height: Float
+    val height: Float,
+    val type: ObstacleType
 )

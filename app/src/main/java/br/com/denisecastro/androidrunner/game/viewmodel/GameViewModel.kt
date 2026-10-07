@@ -17,6 +17,7 @@ import androidx.lifecycle.viewModelScope
 import br.com.denisecastro.androidrunner.data.ranking.repository.RankingRepository
 import br.com.denisecastro.androidrunner.domain.highscore.repository.HighScoreRepository
 import br.com.denisecastro.androidrunner.domain.settings.repository.SettingsRepository
+import br.com.denisecastro.androidrunner.game.model.ObstacleType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -37,7 +38,8 @@ class GameViewModel @Inject constructor(
                     id = 1L,
                     x = GameConstants.INITIAL_OBSTACLE_X,
                     width = GameConstants.OBSTACLE_WIDTH,
-                    height = GameConstants.OBSTACLE_HEIGHT
+                    height = GameConstants.OBSTACLE_HEIGHT,
+                    type = ObstacleType.BARRIER
                 )
             )
         )

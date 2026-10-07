@@ -76,6 +76,7 @@ fun GameScreen(
         ) {
             uiState.obstacles.forEach { obstacle ->
                 GameObstacle(
+                    type = obstacle.type,
                     modifier = Modifier
                         .align(Alignment.BottomStart)
                         .padding(
