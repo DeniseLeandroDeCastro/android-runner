@@ -217,12 +217,29 @@ class GameViewModel @Inject constructor(
             }
             .toMutableList()
 
-        if (collectibleSpawnTimer >= 3f) {
-            updatedCollectibles.add(
-                CollectibleSpawner.create(
-                    id = nextCollectibleId++
+        if (
+            collectibleSpawnTimer >=
+            GameConstants.COLLECTIBLE_SPAWN_INTERVAL
+        ) {
+
+            val collectibleStartX =
+                GameConstants.COLLECTIBLE_START_X
+
+            val hasNearbyObstacle = updatedObstacles.any { obstacle ->
+                obstacle.x >
+                        collectibleStartX - GameConstants.COLLECTIBLE_SAFE_DISTANCE &&
+                        obstacle.x <
+                        collectibleStartX + GameConstants.COLLECTIBLE_SAFE_DISTANCE
+            }
+
+            if (!hasNearbyObstacle) {
+                updatedCollectibles.add(
+                    CollectibleSpawner.create(
+                        id = nextCollectibleId++,
+                        startX = collectibleStartX
+                    )
                 )
-            )
+            }
 
             collectibleSpawnTimer = 0f
         }

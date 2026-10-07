@@ -22,4 +22,7 @@ object GameConstants {
     const val PLAYER_HITBOX_WIDTH = 55f
     const val PLAYER_HITBOX_HEIGHT = 75f
     const val SCORE_PER_SECOND = 100
+    const val COLLECTIBLE_SPAWN_INTERVAL = 3f
+    const val COLLECTIBLE_START_X = 420f
+    const val COLLECTIBLE_SAFE_DISTANCE = 100f
 }
