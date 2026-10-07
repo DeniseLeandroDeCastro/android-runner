@@ -21,6 +21,8 @@ import br.com.denisecastro.androidrunner.game.model.ObstacleType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import br.com.denisecastro.androidrunner.game.engine.CollectiblePhysics
+import br.com.denisecastro.androidrunner.game.engine.CollectibleSpawner
 
 @HiltViewModel
 class GameViewModel @Inject constructor(
@@ -31,6 +33,9 @@ class GameViewModel @Inject constructor(
     private var obstacleSpawnTimer = 0f
     private var nextObstacleId = 2L
     private var elapsedGameTime = 0f
+    private var collectibleSpawnTimer = 0f
+    private var nextCollectibleId = 1L
+    private var collectibleScore = 0
     private val _uiState = MutableStateFlow(
         GameUiState(
             obstacles = listOf(
@@ -68,6 +73,12 @@ class GameViewModel @Inject constructor(
         obstacleSpawnTimer = 0f
         nextObstacleId = 2L
         elapsedGameTime = 0f
+        obstacleSpawnTimer = 0f
+        nextObstacleId = 2L
+        collectibleSpawnTimer = 0f
+        nextCollectibleId = 1L
+        elapsedGameTime = 0f
+        collectibleScore = 0
 
         _uiState.value = GameUiState(
             highScore = currentState.highScore,
@@ -195,9 +206,58 @@ class GameViewModel @Inject constructor(
             obstacleSpawnTimer = 0f
         }
 
+        collectibleSpawnTimer += deltaTimeSeconds
+
+        val updatedCollectibles = currentState.collectibles
+            .map { collectible ->
+                CollectiblePhysics.update(
+                    collectible = collectible,
+                    deltaTimeSeconds = deltaTimeSeconds,
+                    speed = obstacleSpeed
+                )
+            }
+            .filter { collectible ->
+                collectible.x > GameConstants.OBSTACLE_REMOVE_X
+            }
+            .toMutableList()
+
+        if (collectibleSpawnTimer >= 3f) {
+            updatedCollectibles.add(
+                CollectibleSpawner.create(
+                    id = nextCollectibleId++
+                )
+            )
+
+            collectibleSpawnTimer = 0f
+        }
+
         val playerHitBox = CollisionDetector.playerHitBox(
             playerY = physicsState.y
         )
+
+        var collectedCount = 0
+
+        val remainingCollectibles = updatedCollectibles
+            .filterNot { collectible ->
+
+                val collectibleHitBox =
+                    CollisionDetector.collectibleHitBox(
+                        x = collectible.x,
+                        y = collectible.y,
+                        size = collectible.size
+                    )
+
+                val wasCollected = CollisionDetector.collides(
+                    first = playerHitBox,
+                    second = collectibleHitBox
+                )
+
+                if (wasCollected) {
+                    collectedCount++
+                }
+
+                wasCollected
+            }
 
         val hasCollision = updatedObstacles.any { obstacle ->
             val obstacleHitBox =
@@ -241,6 +301,7 @@ class GameViewModel @Inject constructor(
                 playerVelocityY = physicsState.velocityY,
                 isJumping = physicsState.isJumping,
                 obstacles = updatedObstacles,
+                collectibles = remainingCollectibles,
                 isGameOver = hasCollision
             )
         }

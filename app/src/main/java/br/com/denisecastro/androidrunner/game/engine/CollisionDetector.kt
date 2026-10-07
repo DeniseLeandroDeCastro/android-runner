@@ -41,4 +41,17 @@ object CollisionDetector {
             bottom = GameConstants.GROUND_Y
         )
     }
+
+    fun collectibleHitBox(
+        x: Float,
+        y: Float,
+        size: Float
+    ): HitBox {
+        return HitBox(
+            left = x,
+            top = GameConstants.GROUND_Y - y - size,
+            right = x + size,
+            bottom = GameConstants.GROUND_Y - y
+        )
+    }
 }

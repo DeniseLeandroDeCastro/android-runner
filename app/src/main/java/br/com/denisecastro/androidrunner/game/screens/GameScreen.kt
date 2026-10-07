@@ -21,6 +21,7 @@ import br.com.denisecastro.androidrunner.game.components.gameover.GameOverOverla
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.runtime.LaunchedEffect
+import br.com.denisecastro.androidrunner.game.components.collectibles.GameCollectible
 
 @Composable
 fun GameScreen(
@@ -53,8 +54,7 @@ fun GameScreen(
 
         GamePlayArea(
             onJump = {
-                val canJump =
-                    !uiState.isJumping &&
+                val canJump = !uiState.isJumping &&
                             !uiState.isPaused &&
                             !uiState.isGameOver
 
@@ -89,6 +89,22 @@ fun GameScreen(
                             width = obstacle.width.dp,
                             height = obstacle.height.dp
                         )
+                )
+            }
+
+            uiState.collectibles.forEach { collectible ->
+                GameCollectible(
+                    type = collectible.type,
+                    modifier = Modifier
+                        .align(Alignment.BottomStart)
+                        .padding(
+                            bottom = 110.dp
+                        )
+                        .offset(
+                            x = collectible.x.dp,
+                            y = (-collectible.y).dp
+                        )
+                        .size(collectible.size.dp)
                 )
             }
 
