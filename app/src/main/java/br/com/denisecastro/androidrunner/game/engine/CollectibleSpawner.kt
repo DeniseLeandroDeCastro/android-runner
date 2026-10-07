@@ -3,7 +3,6 @@ package br.com.denisecastro.androidrunner.game.engine
 
 import br.com.denisecastro.androidrunner.game.model.Collectible
 import br.com.denisecastro.androidrunner.game.model.CollectibleType
-import kotlin.random.Random
 
 object CollectibleSpawner {
 
@@ -17,7 +16,7 @@ object CollectibleSpawner {
         return Collectible(
             id = id,
             x = startX,
-            y = Random.nextFloat() * 100f,
+            y = listOf(20f, 60f, 100f).random(),
             size = 64f,
             type = type
         )

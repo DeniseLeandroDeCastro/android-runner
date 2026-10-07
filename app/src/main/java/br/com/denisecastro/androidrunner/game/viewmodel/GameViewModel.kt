@@ -23,6 +23,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import br.com.denisecastro.androidrunner.game.engine.CollectiblePhysics
 import br.com.denisecastro.androidrunner.game.engine.CollectibleSpawner
+import kotlinx.coroutines.delay
 
 @HiltViewModel
 class GameViewModel @Inject constructor(
@@ -72,13 +73,12 @@ class GameViewModel @Inject constructor(
 
         obstacleSpawnTimer = 0f
         nextObstacleId = 2L
-        elapsedGameTime = 0f
-        obstacleSpawnTimer = 0f
-        nextObstacleId = 2L
+
         collectibleSpawnTimer = 0f
         nextCollectibleId = 1L
-        elapsedGameTime = 0f
         collectibleScore = 0
+
+        elapsedGameTime = 0f
 
         _uiState.value = GameUiState(
             highScore = currentState.highScore,
@@ -164,10 +164,7 @@ class GameViewModel @Inject constructor(
         }
         elapsedGameTime += deltaTimeSeconds
 
-        val updatedScore =
-            (elapsedGameTime * GameConstants.SCORE_PER_SECOND)
-                .toInt()
-
+        val timeScore = (elapsedGameTime * GameConstants.SCORE_PER_SECOND).toInt()
         val physicsState = GamePhysics.updatePlayer(
             y = currentState.playerY,
             velocityY = currentState.playerVelocityY,
@@ -176,8 +173,7 @@ class GameViewModel @Inject constructor(
 
         val speedLevel = currentState.score / 1000
 
-        val obstacleSpeed = (
-                GameConstants.INITIAL_OBSTACLE_SPEED +
+        val obstacleSpeed = (GameConstants.INITIAL_OBSTACLE_SPEED +
                         speedLevel * GameConstants.SPEED_INCREASE_PER_1000_POINTS
                 ).coerceAtMost(GameConstants.MAX_OBSTACLE_SPEED)
 
@@ -235,7 +231,7 @@ class GameViewModel @Inject constructor(
             playerY = physicsState.y
         )
 
-        var collectedCount = 0
+        var collectedPoints = 0
 
         val remainingCollectibles = updatedCollectibles
             .filterNot { collectible ->
@@ -253,11 +249,16 @@ class GameViewModel @Inject constructor(
                 )
 
                 if (wasCollected) {
-                    collectedCount++
+                    collectedPoints += collectible.type.points
                 }
 
                 wasCollected
             }
+
+        if (collectedPoints > 0) {
+            collectibleScore += collectedPoints
+            clearCollectedPointsFeedback()
+        }
 
         val hasCollision = updatedObstacles.any { obstacle ->
             val obstacleHitBox =
@@ -271,6 +272,8 @@ class GameViewModel @Inject constructor(
                 second = obstacleHitBox
             )
         }
+
+        val updatedScore = timeScore + collectibleScore
 
         val updatedHighScore =
             if (hasCollision) {
@@ -302,8 +305,26 @@ class GameViewModel @Inject constructor(
                 isJumping = physicsState.isJumping,
                 obstacles = updatedObstacles,
                 collectibles = remainingCollectibles,
+                collectedPointsFeedback =
+                    if (collectedPoints > 0) {
+                        collectedPoints
+                    } else {
+                        state.collectedPointsFeedback
+                    },
                 isGameOver = hasCollision
             )
+        }
+    }
+
+    private fun clearCollectedPointsFeedback() {
+        viewModelScope.launch {
+            delay(800)
+
+            _uiState.update { state ->
+                state.copy(
+                    collectedPointsFeedback = null
+                )
+            }
         }
     }
 }

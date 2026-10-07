@@ -22,6 +22,9 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.runtime.LaunchedEffect
 import br.com.denisecastro.androidrunner.game.components.collectibles.GameCollectible
+import androidx.compose.material3.Text
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun GameScreen(
@@ -107,6 +110,34 @@ fun GameScreen(
                         .size(collectible.size.dp)
                 )
             }
+
+            // Feedback dos pontos ganhos ao coletar um item
+            uiState.collectedPointsFeedback?.let { points ->
+                Text(
+                    text = "+$points",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier
+                        .align(Alignment.BottomStart)
+                        .padding(
+                            start = 90.dp,
+                            bottom = 210.dp
+                        )
+                )
+            }
+
+            RunnerCharacter(
+                modifier = Modifier
+                    .align(Alignment.BottomStart)
+                    .padding(
+                        start = 24.dp,
+                        bottom = 82.dp
+                    )
+                    .offset(
+                        y = uiState.playerY.dp
+                    )
+                    .size(190.dp)
+            )
 
             RunnerCharacter(
                 modifier = Modifier
