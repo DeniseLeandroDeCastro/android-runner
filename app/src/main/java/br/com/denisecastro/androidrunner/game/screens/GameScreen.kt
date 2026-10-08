@@ -25,6 +25,12 @@ import br.com.denisecastro.androidrunner.game.components.collectibles.GameCollec
 import androidx.compose.material3.Text
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.tween
+import androidx.compose.runtime.remember
+import androidx.compose.ui.draw.alpha
+import kotlinx.coroutines.launch
+import androidx.compose.ui.graphics.Color
 
 @Composable
 fun GameScreen(
@@ -113,16 +119,49 @@ fun GameScreen(
 
             // Feedback dos pontos ganhos ao coletar um item
             uiState.collectedPointsFeedback?.let { points ->
+
+                val offsetY = remember(points) {
+                    Animatable(0f)
+                }
+
+                val alpha = remember(points) {
+                    Animatable(1f)
+                }
+
+                LaunchedEffect(points) {
+                    offsetY.snapTo(0f)
+                    alpha.snapTo(1f)
+
+                    launch {
+                        offsetY.animateTo(
+                            targetValue = -60f,
+                            animationSpec = tween(durationMillis = 800)
+                        )
+                    }
+
+                    launch {
+                        alpha.animateTo(
+                            targetValue = 0f,
+                            animationSpec = tween(durationMillis = 800)
+                        )
+                    }
+                }
+
                 Text(
                     text = "+$points",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
+                    color = Color.White,
                     modifier = Modifier
                         .align(Alignment.BottomStart)
                         .padding(
                             start = 90.dp,
                             bottom = 210.dp
                         )
+                        .offset(
+                            y = offsetY.value.dp
+                        )
+                        .alpha(alpha.value)
                 )
             }
 

@@ -11,21 +11,16 @@ object CollectibleSpawner {
         startX: Float = 420f
     ): Collectible {
 
-        val type = listOf(
-            CollectibleType.ANDROID_COIN,
-            CollectibleType.ANDROID_COIN,
-            CollectibleType.ANDROID_COIN,
-            CollectibleType.CODE_TOKEN,
-            CollectibleType.CODE_TOKEN,
-            CollectibleType.DATA_CHIP,
-            CollectibleType.DATA_CHIP,
-            CollectibleType.KOTLIN_GEM,
-            CollectibleType.ENERGY_BOLT,
-            CollectibleType.ENERGY_BOLT,
-            CollectibleType.BUG_FIX,
-            CollectibleType.BATTERY,
-            CollectibleType.STAR_XP
-        ).random()
+        val totalWeight = CollectibleType.entries.sumOf { it.weight }
+
+        val randomWeight = (1..totalWeight).random()
+
+        var accumulatedWeight = 0
+
+        val type = CollectibleType.entries.first { collectibleType ->
+            accumulatedWeight += collectibleType.weight
+            randomWeight <= accumulatedWeight
+        }
         return Collectible(
             id = id,
             x = startX,
