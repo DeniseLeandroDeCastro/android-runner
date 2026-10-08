@@ -38,9 +38,19 @@ fun GameScreen(
     onEvent: (GameUiEvent) -> Unit,
     onJumpSound: () -> Unit,
     onGameOverSound: () -> Unit,
+    onCollectibleSound: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val hapticFeedback = LocalHapticFeedback.current
+
+    LaunchedEffect(uiState.collectedPointsFeedback) {
+        if (
+            uiState.collectedPointsFeedback != null &&
+            uiState.soundEnabled
+        ) {
+            onCollectibleSound()
+        }
+    }
 
     LaunchedEffect(uiState.isGameOver) {
         if (uiState.isGameOver) {
@@ -235,7 +245,8 @@ private fun GameScreenPreview() {
             ),
             onEvent = {},
             onJumpSound = {},
-            onGameOverSound = {}
+            onGameOverSound = {},
+            onCollectibleSound = {},
         )
     }
 }
@@ -256,7 +267,8 @@ private fun GameScreenGameOverPreview() {
             ),
             onEvent = {},
             onJumpSound = {},
-            onGameOverSound = {}
+            onGameOverSound = {},
+            onCollectibleSound = {},
         )
     }
 }

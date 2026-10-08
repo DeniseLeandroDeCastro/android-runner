@@ -57,6 +57,9 @@ fun GameRoute(
         onGameOverSound = {
             gameSoundManager.playGameOver()
         },
+        onCollectibleSound = {
+            gameSoundManager.playCollectible()
+        },
         onEvent = { event ->
             when (event) {
                 GameUiEvent.HomeClicked -> {

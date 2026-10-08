@@ -10,9 +10,9 @@ class GameSoundManager(
 ) {
 
     private val soundPool: SoundPool
-
     private val jumpSoundId: Int
     private val gameOverSoundId: Int
+    private val collectibleSoundId: Int
 
     init {
         val audioAttributes =
@@ -23,25 +23,28 @@ class GameSoundManager(
                 )
                 .build()
 
-        soundPool =
-            SoundPool.Builder()
+        soundPool = SoundPool.Builder()
                 .setMaxStreams(2)
                 .setAudioAttributes(audioAttributes)
                 .build()
 
-        jumpSoundId =
-            soundPool.load(
+        jumpSoundId = soundPool.load(
                 context,
                 R.raw.jump,
                 1
-            )
+        )
 
-        gameOverSoundId =
-            soundPool.load(
+        gameOverSoundId = soundPool.load(
                 context,
                 R.raw.game_over,
                 1
-            )
+        )
+
+        collectibleSoundId = soundPool.load(
+                context,
+                R.raw.collectible,
+                1
+        )
     }
 
     fun playJump() {
@@ -50,6 +53,10 @@ class GameSoundManager(
 
     fun playGameOver() {
         play(gameOverSoundId)
+    }
+
+    fun playCollectible() {
+        play(collectibleSoundId)
     }
 
     private fun play(soundId: Int) {
