@@ -171,7 +171,7 @@ class GameViewModel @Inject constructor(
             deltaTimeSeconds = deltaTimeSeconds
         )
 
-        val speedLevel = currentState.score / 1000
+        val speedLevel = timeScore / 1000
 
         val obstacleSpeed = (GameConstants.INITIAL_OBSTACLE_SPEED +
                         speedLevel * GameConstants.SPEED_INCREASE_PER_1000_POINTS

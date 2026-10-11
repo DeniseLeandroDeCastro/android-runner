@@ -17,6 +17,8 @@ object GameConstants {
     const val LARGE_OBSTACLE_WIDTH = 65f
     const val LARGE_OBSTACLE_HEIGHT = 85f
     const val OBSTACLE_SPAWN_INTERVAL = 2.5f
+    const val MIN_OBSTACLE_SPAWN_INTERVAL = 1.8f
+    const val SPAWN_INTERVAL_DECREASE_PER_1000_POINTS = 0.1f
     const val OBSTACLE_REMOVE_X = -100f
     const val PLAYER_X = 70f
     const val PLAYER_HITBOX_WIDTH = 55f
