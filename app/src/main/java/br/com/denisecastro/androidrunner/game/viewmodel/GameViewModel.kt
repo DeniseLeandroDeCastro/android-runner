@@ -328,6 +328,11 @@ class GameViewModel @Inject constructor(
                     } else {
                         state.collectedPointsFeedback
                     },
+                collectibleEventId = if (collectedPoints > 0) {
+                    state.collectibleEventId + 1L
+                } else {
+                    state.collectibleEventId
+                },
                 isGameOver = hasCollision
             )
         }

@@ -43,9 +43,9 @@ fun GameScreen(
 ) {
     val hapticFeedback = LocalHapticFeedback.current
 
-    LaunchedEffect(uiState.collectedPointsFeedback) {
+    LaunchedEffect(uiState.collectibleEventId) {
         if (
-            uiState.collectedPointsFeedback != null &&
+            uiState.collectibleEventId > 0L &&
             uiState.soundEnabled
         ) {
             onCollectibleSound()

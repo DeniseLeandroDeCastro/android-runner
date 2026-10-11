@@ -13,6 +13,7 @@ data class GameUiState(
     val obstacles: List<Obstacle> = emptyList(),
     val collectibles: List<Collectible> = emptyList(),
     val collectedPointsFeedback: Int? = null,
+    val collectibleEventId: Long = 0L,
     val isGameOver: Boolean = false,
     val vibrationEnabled: Boolean = true,
     val soundEnabled: Boolean = true
