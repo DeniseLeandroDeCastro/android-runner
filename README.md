@@ -1,7 +1,18 @@
 <div>
 
-<img width="2048" height="768" alt="AndroidRunner_ Corrida no Deserto" src="https://github.com/user-attachments/assets/4070fce4-c60c-4f13-9cd9-4e42f8f50f9c" />
+<img width="2048" height="768" alt="AndroidRunner_ Corrida no Deserto" src="https://github.com/user-attachments/assets/4070fce4-c60c-4f13-9cd9-4e42f8f50f9c" /> <br>
 
+
+<div align="center">
+
+<img width="376" height="700" alt="image" src="https://github.com/user-attachments/assets/7e703a56-a3a0-4adb-bb81-81a5d19e91a3" />
+
+
+
+<img width="376" height="700" alt="image" src="https://github.com/user-attachments/assets/3e881eb8-77a1-4d23-acea-e7c19ba17b9e" />
+
+
+</div>
 
 #  AndroidRunner
 
@@ -579,7 +590,7 @@ Para executar o projeto, utilize:
 ### Clone o projeto
 
 ```bash
-git clone URL_DO_REPOSITORIO
+git clone https://github.com/DeniseLeandroDeCastro/android-runner
 ```
 
 Entre na pasta:
