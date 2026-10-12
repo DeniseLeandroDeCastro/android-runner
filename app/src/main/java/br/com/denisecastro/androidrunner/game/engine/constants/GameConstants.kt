@@ -26,5 +26,5 @@ object GameConstants {
     const val SCORE_PER_SECOND = 100
     const val COLLECTIBLE_SPAWN_INTERVAL = 3f
     const val COLLECTIBLE_START_X = 420f
-    const val COLLECTIBLE_SAFE_DISTANCE = 100f
+    const val COLLECTIBLE_SAFE_DISTANCE = 300f
 }

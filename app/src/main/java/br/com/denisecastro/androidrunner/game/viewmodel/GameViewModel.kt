@@ -155,16 +155,19 @@ class GameViewModel @Inject constructor(
     }
 
     fun updateGame(deltaTimeSeconds: Float) {
+
         val currentState = _uiState.value
-        if (
-            currentState.isPaused ||
-            currentState.isGameOver
-        ) {
+
+        if (currentState.isPaused || currentState.isGameOver) {
             return
         }
+
         elapsedGameTime += deltaTimeSeconds
 
-        val timeScore = (elapsedGameTime * GameConstants.SCORE_PER_SECOND).toInt()
+        val timeScore = (
+                elapsedGameTime * GameConstants.SCORE_PER_SECOND
+                ).toInt()
+
         val physicsState = GamePhysics.updatePlayer(
             y = currentState.playerY,
             velocityY = currentState.playerVelocityY,
@@ -173,10 +176,12 @@ class GameViewModel @Inject constructor(
 
         val speedLevel = timeScore / 1000
 
-        val obstacleSpeed = (GameConstants.INITIAL_OBSTACLE_SPEED +
+        val obstacleSpeed = (
+                GameConstants.INITIAL_OBSTACLE_SPEED +
                         speedLevel * GameConstants.SPEED_INCREASE_PER_1000_POINTS
                 ).coerceAtMost(GameConstants.MAX_OBSTACLE_SPEED)
 
+        // Atualiza os obstáculos existentes
         val updatedObstacles = currentState.obstacles
             .map { obstacle ->
                 ObstaclePhysics.update(
@@ -189,21 +194,8 @@ class GameViewModel @Inject constructor(
                 obstacle.x > GameConstants.OBSTACLE_REMOVE_X
             }
             .toMutableList()
-        obstacleSpawnTimer += deltaTimeSeconds
-        if (
-            obstacleSpawnTimer >=
-            GameConstants.OBSTACLE_SPAWN_INTERVAL
-        ) {
-            updatedObstacles.add(
-                ObstacleSpawner.create(
-                    id = nextObstacleId++
-                )
-            )
-            obstacleSpawnTimer = 0f
-        }
 
-        collectibleSpawnTimer += deltaTimeSeconds
-
+        // Atualiza os coletáveis existentes
         val updatedCollectibles = currentState.collectibles
             .map { collectible ->
                 CollectiblePhysics.update(
@@ -217,6 +209,42 @@ class GameViewModel @Inject constructor(
             }
             .toMutableList()
 
+        // Intervalo progressivo entre obstáculos
+        val obstacleSpawnInterval = (
+                GameConstants.OBSTACLE_SPAWN_INTERVAL -
+                        speedLevel *
+                        GameConstants.SPAWN_INTERVAL_DECREASE_PER_1000_POINTS
+                ).coerceAtLeast(
+                GameConstants.MIN_OBSTACLE_SPAWN_INTERVAL
+            )
+
+        obstacleSpawnTimer += deltaTimeSeconds
+        collectibleSpawnTimer += deltaTimeSeconds
+
+        // Geração dos obstáculos
+        if (obstacleSpawnTimer >= obstacleSpawnInterval) {
+
+            val obstacleStartX = GameConstants.INITIAL_OBSTACLE_X
+
+            val hasNearbyCollectible = updatedCollectibles.any { collectible ->
+                kotlin.math.abs(
+                    collectible.x - obstacleStartX
+                ) < GameConstants.COLLECTIBLE_SAFE_DISTANCE
+            }
+
+            if (!hasNearbyCollectible) {
+                updatedObstacles.add(
+                    ObstacleSpawner.create(
+                        id = nextObstacleId++,
+                        startX = obstacleStartX
+                    )
+                )
+
+                obstacleSpawnTimer = 0f
+            }
+        }
+
+        // Geração dos coletáveis
         if (
             collectibleSpawnTimer >=
             GameConstants.COLLECTIBLE_SPAWN_INTERVAL
@@ -226,24 +254,25 @@ class GameViewModel @Inject constructor(
                 GameConstants.COLLECTIBLE_START_X
 
             val hasNearbyObstacle = updatedObstacles.any { obstacle ->
-                obstacle.x >
-                        collectibleStartX - GameConstants.COLLECTIBLE_SAFE_DISTANCE &&
-                        obstacle.x <
-                        collectibleStartX + GameConstants.COLLECTIBLE_SAFE_DISTANCE
+                kotlin.math.abs(
+                    obstacle.x - collectibleStartX
+                ) < GameConstants.COLLECTIBLE_SAFE_DISTANCE
             }
 
             if (!hasNearbyObstacle) {
+
                 updatedCollectibles.add(
                     CollectibleSpawner.create(
                         id = nextCollectibleId++,
                         startX = collectibleStartX
                     )
                 )
-            }
 
-            collectibleSpawnTimer = 0f
+                collectibleSpawnTimer = 0f
+            }
         }
 
+        // Colisão do personagem
         val playerHitBox = CollisionDetector.playerHitBox(
             playerY = physicsState.y
         )
@@ -277,13 +306,16 @@ class GameViewModel @Inject constructor(
             clearCollectedPointsFeedback()
         }
 
+        // Verifica colisão com obstáculos
         val hasCollision = updatedObstacles.any { obstacle ->
+
             val obstacleHitBox =
                 CollisionDetector.obstacleHitBox(
                     x = obstacle.x,
                     width = obstacle.width,
                     height = obstacle.height
                 )
+
             CollisionDetector.collides(
                 first = playerHitBox,
                 second = obstacleHitBox
@@ -292,15 +324,11 @@ class GameViewModel @Inject constructor(
 
         val updatedScore = timeScore + collectibleScore
 
-        val updatedHighScore =
-            if (hasCollision) {
-                maxOf(
-                    currentState.highScore,
-                    updatedScore
-                )
-            } else {
-                currentState.highScore
-            }
+        val updatedHighScore = if (hasCollision) {
+            maxOf(currentState.highScore, updatedScore)
+        } else {
+            currentState.highScore
+        }
 
         if (hasCollision) {
             saveScoreToRanking(updatedScore)
@@ -313,6 +341,7 @@ class GameViewModel @Inject constructor(
             saveHighScore(updatedScore)
         }
 
+        // Atualiza o estado da interface
         _uiState.update { state ->
             state.copy(
                 score = updatedScore,
@@ -328,11 +357,12 @@ class GameViewModel @Inject constructor(
                     } else {
                         state.collectedPointsFeedback
                     },
-                collectibleEventId = if (collectedPoints > 0) {
-                    state.collectibleEventId + 1L
-                } else {
-                    state.collectibleEventId
-                },
+                collectibleEventId =
+                    if (collectedPoints > 0) {
+                        state.collectibleEventId + 1L
+                    } else {
+                        state.collectibleEventId
+                    },
                 isGameOver = hasCollision
             )
         }

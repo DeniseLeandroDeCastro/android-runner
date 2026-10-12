@@ -1,6 +1,5 @@
 package br.com.denisecastro.androidrunner.game.engine
 
-
 import br.com.denisecastro.androidrunner.game.model.Collectible
 import br.com.denisecastro.androidrunner.game.model.CollectibleType
 
