@@ -23,6 +23,8 @@ import br.com.denisecastro.androidrunner.home.events.HomeUiEvent
 import br.com.denisecastro.androidrunner.home.state.HomeUiState
 import br.com.denisecastro.androidrunner.ui.designsystem.components.background.RunnerBackground
 import br.com.denisecastro.androidrunner.ui.designsystem.theme.AndroidRunnerTheme
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 
 @Composable
 fun HomeScreen(
@@ -37,6 +39,7 @@ fun HomeScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .windowInsetsPadding(WindowInsets.navigationBars)
+                .verticalScroll(rememberScrollState())
                 .padding(
                     horizontal = 24.dp,
                     vertical = 32.dp

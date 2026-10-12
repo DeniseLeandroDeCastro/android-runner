@@ -31,7 +31,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.draw.alpha
 import kotlinx.coroutines.launch
 import androidx.compose.ui.graphics.Color
+import br.com.denisecastro.androidrunner.game.model.ObstacleType
 
+private const val GAME_GROUND_VISUAL_OFFSET = 166
 @Composable
 fun GameScreen(
     uiState: GameUiState,
@@ -98,15 +100,17 @@ fun GameScreen(
                     type = obstacle.type,
                     modifier = Modifier
                         .align(Alignment.BottomStart)
-                        .padding(
-                            bottom = 110.dp
-                        )
-                        .offset(
-                            x = obstacle.x.dp
-                        )
+                        .padding(bottom = GAME_GROUND_VISUAL_OFFSET.dp)
+                        .offset(x = obstacle.x.dp)
                         .size(
                             width = obstacle.width.dp,
-                            height = obstacle.height.dp
+                            height = (
+                                    obstacle.height * when (obstacle.type) {
+                                        ObstacleType.BARRIER -> 1.6f
+                                        ObstacleType.BUG -> 1.3f
+                                        ObstacleType.TERMINAL -> 1.4f
+                                    }
+                            ).dp
                         )
                 )
             }
@@ -117,7 +121,7 @@ fun GameScreen(
                     modifier = Modifier
                         .align(Alignment.BottomStart)
                         .padding(
-                            bottom = 110.dp
+                            bottom = GAME_GROUND_VISUAL_OFFSET.dp
                         )
                         .offset(
                             x = collectible.x.dp,
@@ -180,20 +184,7 @@ fun GameScreen(
                     .align(Alignment.BottomStart)
                     .padding(
                         start = 24.dp,
-                        bottom = 82.dp
-                    )
-                    .offset(
-                        y = uiState.playerY.dp
-                    )
-                    .size(190.dp)
-            )
-
-            RunnerCharacter(
-                modifier = Modifier
-                    .align(Alignment.BottomStart)
-                    .padding(
-                        start = 24.dp,
-                        bottom = 82.dp
+                        bottom = GAME_GROUND_VISUAL_OFFSET.dp
                     )
                     .offset(
                         y = uiState.playerY.dp
