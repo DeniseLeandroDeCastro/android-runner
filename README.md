@@ -67,10 +67,9 @@ Uma das principais decisões técnicas foi manter **a física e as regras do jog
 &nbsp;
 <img width="290" alt="tela_android_runner" src="https://github.com/user-attachments/assets/8af585e6-ec67-441a-868a-6fda55104adb" /> <br><br>
 
-O AndroidRunner possui uma identidade visual própria, com personagem, cenário, obstáculos e coletáveis. As telas incluem:
-
 </div>
 
+O AndroidRunner possui uma identidade visual própria, com personagem, cenário, obstáculos e coletáveis. As telas incluem:
 - Home.
 - Gameplay.
 - Ranking.
