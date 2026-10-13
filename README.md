@@ -64,9 +64,10 @@ Uma das principais decisões técnicas foi manter **a física e as regras do jog
 
 ### Tela inicial e Gameplay
 
-<img src="https://github.com/user-attachments/assets/7e703a56-a3a0-4adb-bb81-81a5d19e91a3" width="290" alt="Tela inicial do AndroidRunner" />
+<img width="290" alt="home_android_runner" src="https://github.com/user-attachments/assets/b5af11bd-73ac-4093-9ad4-3c148c64c933" />
 &nbsp;
-<img src="https://github.com/user-attachments/assets/3e881eb8-77a1-4d23-acea-e7c19ba17b9e" width="290" alt="Gameplay do AndroidRunner" /> <br><br>
+<img width="290" alt="tela_android_runner" src="https://github.com/user-attachments/assets/8af585e6-ec67-441a-868a-6fda55104adb" /> <br><br>
+
 O AndroidRunner possui uma identidade visual própria, com personagem, cenário, obstáculos e coletáveis. As telas incluem:
 
 </div>
