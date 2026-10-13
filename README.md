@@ -1,4 +1,3 @@
-
 <div align="center">
 
 <img width="1600" height="550" alt="Banner oficial do AndroidRunner" src="https://github.com/user-attachments/assets/64564d93-6591-4fd9-be99-8a30cad68585" />
